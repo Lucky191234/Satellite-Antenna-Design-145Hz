@@ -1,0 +1,192 @@
+% ======================================================================
+% Antenna Analysis Report - 145 MHz Dipole
+% ======================================================================
+
+\documentclass[12pt,a4paper]{report}
+
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{pdfpages}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+% ---------------- PAGE SETUP ----------------
+\geometry{margin=1in}
+\setstretch{1.2}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Antenna Analysis Report}
+\lhead{145 MHz Dipole Antenna}
+\cfoot{\thepage}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan
+}
+
+% ---------------- DOCUMENT START ----------------
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Huge \textbf{Antenna Analysis and Simulation Report}}\\[1cm]
+    {\LARGE Dipole Antenna Design and Analysis at 145 MHz}\\[2cm]
+    {\Large \textbf{Author:} Lakshya Varshney}\\[0.5cm]
+    {\large B.Tech. (Electronics), COEP Technological University}\\[1cm]
+    {\large Date: \today}\\[3cm]
+    \vfill
+\end{titlepage}
+
+% ---------------- ABSTRACT ----------------
+\section*{Theory and Discussion}
+Antennas act as the interface between electrical circuits and the free-space electromagnetic field. 
+They convert alternating current signals into propagating radio waves during transmission and vice versa during reception. 
+The study of antenna parameters such as gain, impedance, and Voltage Standing Wave Ratio (VSWR) provides quantitative insight into how efficiently this energy conversion takes place. 
+
+\section*{1. Why These Parameters Matter}
+Each antenna parameter serves a specific purpose in ensuring reliable communication:
+\begin{itemize}
+    \item \textbf{Resonance and Impedance:} For efficient energy transfer, the antenna’s input impedance must match that of the transmission line—commonly 50~$\Omega$. A mismatch causes reflections, reducing transmitted power.
+    \item \textbf{VSWR (Voltage Standing Wave Ratio):} VSWR quantifies mismatch. A perfect match yields VSWR = 1. Values up to 1.5 indicate good practical matching, where over 95\% of power is radiated.
+    \item \textbf{Gain and Directivity:} Gain represents how effectively the antenna focuses radiated energy in a particular direction compared to an isotropic radiator. A half-wave dipole exhibits approximately 2.15~dBi gain, providing a reference for more complex directional antennas.
+\end{itemize}
+
+\section*{2. Theoretical Foundation}
+The wavelength ($\lambda$) corresponding to a frequency ($f$) is derived from the speed of light ($c$) as:
+\[
+\lambda = \frac{c}{f}
+\]
+For 145~MHz, 
+\[
+\lambda = \frac{3\times10^8}{145\times10^6} = 1.943~\text{m}.
+\]
+A resonant half-wave dipole therefore has a total length:
+\[
+L = \frac{\lambda}{2} = 0.971~\text{m},
+\]
+which ensures that the current distribution along the arms produces maximum radiation efficiency and a purely resistive feed impedance.
+
+At resonance, the antenna behaves like a resistive load of approximately 75~$\Omega$. 
+When connected to a 50~$\Omega$ feedline, the reflection coefficient ($\Gamma$) is given by:
+\[
+\Gamma = \frac{Z_L - Z_0}{Z_L + Z_0} = \frac{75 - 50}{75 + 50} = 0.2,
+\]
+and the corresponding VSWR is:
+\[
+\text{VSWR} = \frac{1 + |\Gamma|}{1 - |\Gamma|} = \frac{1.2}{0.8} = 1.5.
+\]
+This moderate mismatch reflects only about 4\% of the transmitted power, making the antenna efficient for practical use.
+
+\section*{3. Conceptual Understanding}
+The MATLAB analysis provided a visual and quantitative verification of these theoretical predictions:
+\begin{itemize}
+    \item The impedance plot confirmed that the imaginary component crosses zero near 145~MHz, indicating resonance.
+    \item The return loss ($S_{11}$) curve showed a deep null, corresponding to low reflection and good matching.
+    \item The VSWR curve reached its minimum near 145~MHz, validating the impedance match.
+    \item The radiation pattern displayed the classic toroidal (donut-shaped) structure of a dipole, with maximum radiation broadside to the element and nulls along its axis.
+    \item The simulated gain remained near 2.15~dBi.
+\end{itemize}
+
+\section*{4. Broader Understanding}
+This exploration revealed how antenna design is a balance between theory, simulation, and practical adjustment. 
+Theoretical equations predict dimensions and behavior, while tools such as MATLAB visualize real-world performance including losses, bandwidth, and matching efficiency.  
+Mastering these principles is essential for advanced applications such as satellite communication, where antenna performance directly affects link reliability and signal strength.
+
+\newpage
+
+% =====================================================
+%               FIGURES SECTION (8 pages)
+% =====================================================
+\includepdf[pages={1},scale=0.9, pagecommand={
+\vspace*{-2cm} % Pull figure up closer to the title
+\section*{Simulation Results and Discussion}
+\section*{Figure 1: 3D Geometry of the Dipole Antenna}
+\noindent\textbf{Description:} The designed 145~MHz dipole consists of two arms, each approximately 0.517~m long. 
+This corresponds to a total length of half the wavelength (1.034~m). 
+The figure shows the 3D geometry and the feed point at the center.
+\vspace{1cm}
+}, addtotoc={1,section,1,{Simulation Results and Discussion},figures}]{Dipole_Simulation_Figures.pdf}
+
+
+\includepdf[pages={2},scale=0.9,
+pagecommand={
+\section*{Figure 2: Input Impedance vs Frequency}
+\noindent\textbf{Description:} The impedance plot shows the real and imaginary parts across the 130--160~MHz range. 
+At 145~MHz, the imaginary component crosses zero, confirming resonance. 
+The real component near 73~$\Omega$ represents the radiation resistance.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+
+\includepdf[pages={3},scale=0.9,
+pagecommand={
+\section*{Figure 3: Return Loss (S11) vs Frequency}
+\noindent\textbf{Description:} The S11 curve displays a deep dip around 145~MHz with return loss better than --15~dB, 
+indicating a strong impedance match and minimal reflection.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+
+\includepdf[pages={4},scale=0.9,
+pagecommand={
+\section*{Figure 4: VSWR vs Frequency}
+\noindent\textbf{Description:} The VSWR plot shows a minimum value near 1.5 at resonance. 
+This suggests that approximately 96\% of the transmitter power is radiated, with only 4\% reflected.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+
+\includepdf[pages={6},scale=0.9,
+pagecommand={
+\section*{Figure 5: 3D Radiation Pattern}
+\noindent\textbf{Description:} The 3D radiation pattern exhibits the characteristic toroidal shape of a dipole antenna. 
+Maximum radiation occurs broadside to the dipole, with deep nulls along its axis.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+
+\includepdf[pages={8},scale=0.9,
+pagecommand={
+\section*{Figure 6: Azimuth Pattern (Horizontal Plane)}
+\noindent\textbf{Description:} The azimuth pattern demonstrates nearly uniform radiation in the horizontal plane (omnidirectional behavior). 
+This makes the dipole ideal for ground-based VHF communication.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+
+\includepdf[pages={7},scale=0.9,
+pagecommand={
+\section*{Figure 7: Elevation Pattern (Vertical Plane)}
+\noindent\textbf{Description:} The elevation cut reveals two main lobes perpendicular to the dipole axis. 
+The nulls at the top and bottom correspond to the ends of the dipole, where no current flows.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+
+\includepdf[pages={5},scale=0.9,
+pagecommand={
+\section*{Figure 8: Gain (Directivity) vs Frequency}
+\noindent\textbf{Description:} The gain (directivity) curve peaks at approximately 2.15~dBi near 145~MHz. 
+This value aligns with the theoretical directivity of an ideal half-wave dipole, confirming simulation accuracy.
+\vspace{1cm}
+}]{Dipole_Simulation_Figures.pdf}
+% =====================================================
+%                   CONCLUSION
+% =====================================================
+
+\section*{Conclusion}
+This project combined theoretical antenna fundamentals with MATLAB simulations to fully characterize a 145~MHz half-wave dipole.  
+The simulated impedance and radiation behavior closely matched textbook predictions, validating both the mathematical and practical design.  
+Such a dipole, due to its simplicity, balanced impedance, and moderate gain, remains a core element in VHF satellite communication systems.  
+This work serves as a solid foundation for future experimental antenna construction and testing at the Institute’s Satellite Club.
+
+% =====================================================
+%                   REFERENCES
+% =====================================================
+
+\section*{References}
+\begin{enumerate}
+    \item Shubhendu Joardar, \textit{Basics of Antennas}, NIT Calicut, IIT Madras.
+    \item MATLAB Antenna Toolbox Documentation, MathWorks, 2025.
+    \item Youtube Videos
+\end{enumerate}
+
+\end{document}
