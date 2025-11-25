@@ -15,28 +15,28 @@ figure;
 show(antennaObject)
 title('3D View of 145 MHz Half-Wave Dipole Antenna');
 
-%% --- 2. Frequency Setup ---
-freqRange = (130.5:1.2:159.5)*1e6;   % Sweep range
-refImpedance = 50;                   % Feed impedance (Ohms)
-plotFrequency = freqCenter;          % Main analysis frequency
+%% --- Frequency Setup ---
+freqRange = (130.5:1.2:159.5)*1e6;
+refImpedance = 50;
+plotFrequency = freqCenter;
 
-%% --- 3. Impedance vs Frequency ---
+%% --- 2. Impedance vs Frequency ---
 figure;
 impedance(antennaObject, freqRange);
 title('Input Impedance vs Frequency');
 grid on;
 
-%% --- 4. S-Parameters (Return Loss) ---
+%% --- 3. S-Parameters (Return Loss) ---
 s = sparameters(antennaObject, freqRange, refImpedance);
 figure;
 rfplot(s);
 title('S11 (Return Loss) vs Frequency');
 grid on;
 
-%% --- 5. VSWR vs Frequency ---
+%% --- 4. VSWR vs Frequency ---
 % VSWR = (1 + |Γ|) / (1 - |Γ|), where |Γ| = |S11|
-S11 = rfparam(s,1,1);           % Extract S11 data
-GammaMag = abs(S11);            % Magnitude of reflection coefficient
+S11 = rfparam(s,1,1);
+GammaMag = abs(S11);
 VSWR = (1 + GammaMag) ./ (1 - GammaMag);
 
 figure;
@@ -49,22 +49,22 @@ ylim([1 5]);
 yline(2,'r--','VSWR=2 (Typical Limit)');
 yline(1.5,'g--','VSWR=1.5 (Good Match)');
 
-%% --- 6. 3D Radiation Pattern at 145 MHz ---
+%% --- 5. 3D Radiation Pattern at 145 MHz ---
 figure;
 pattern(antennaObject, plotFrequency);
 title('3D Radiation Pattern at 145 MHz');
+
+%% --- 6. 2D Elevation Pattern (Vertical Plane) ---
+figure;
+patternElevation(antennaObject, plotFrequency, 0, 'Elevation', 0:5:360);
+title('Elevation Pattern (Vertical) at 145 MHz');
 
 %% --- 7. 2D Azimuth Pattern (Horizontal Plane) ---
 figure;
 patternAzimuth(antennaObject, plotFrequency, 0, 'Azimuth', 0:5:360);
 title('Azimuth Pattern (Horizontal) at 145 MHz');
 
-%% --- 8. 2D Elevation Pattern (Vertical Plane) ---
-figure;
-patternElevation(antennaObject, plotFrequency, 0, 'Elevation', 0:5:360);
-title('Elevation Pattern (Vertical) at 145 MHz');
-
-%% --- 9. Gain (or Directivity) vs Frequency ---
+%% --- 8. Gain (or Directivity) vs Frequency ---
 gain_dBi = zeros(size(freqRange));   % Preallocate array
 
 for i = 1:length(freqRange)
